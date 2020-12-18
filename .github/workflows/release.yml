@@ -11,11 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Random Number
-        run: echo "RANDOM_NUMBER=$(head -200 /dev/urandom |cksum |cut -f1 -d' ')" >> $GITHUB_ENV
+        id: randomnumber
+        run: echo "::set-output name=randomnumber::$(head -200 /dev/urandom |cksum |cut -f1 -d' ')"
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: true
-          title: "${RANDOM_NUMBER}"
+          title: ${{ steps.randomnumber.outputs.randomnumber }}
