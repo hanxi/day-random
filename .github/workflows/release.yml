@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Random Number
-        run: export RANDOM_NUMBER=$(head -200 /dev/urandom |cksum |cut -f1 -d" ")
+        run: echo "::set-env name=RANDOM_NUMBER::$(head -200 /dev/urandom |cksum |cut -f1 -d' ')"
         env: 
           RANDOM_NUMBER:  1
 
