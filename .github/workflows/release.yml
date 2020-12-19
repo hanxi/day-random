@@ -15,11 +15,13 @@ jobs:
     steps:
       - name: Random Number
         id: randomnumber
-        run: echo "::set-output name=randomnumber::$(head -200 /dev/urandom |cksum |cut -f1 -d' ')"
+        run: |
+          echo "::set-output name=randomnumber::$(head -200 /dev/urandom |cksum |cut -f1 -d' ')"
+          echo "::set-output name=tag::$(date +"%Y%m%d%H%M%S")"
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: ${{ steps.randomnumber.outputs.randomnumber }}
+          automatic_release_tag: ${{ steps.randomnumber.outputs.tag }}
           prerelease: false
           title: ${{ steps.randomnumber.outputs.randomnumber }}
